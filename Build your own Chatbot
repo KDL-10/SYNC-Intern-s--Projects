@@ -1,0 +1,48 @@
+# Python Code
+
+
+import tkinter as tk
+from tkinter import Scrollbar, Text
+
+responses = {
+    "hello": "Hi there!",
+    "how are you": "I'm just a chatbot, but I'm here to help!",
+    "bye": "Goodbye!",
+    "default": "I'm not sure how to respond to that."
+}
+
+def get_response(input_text):
+    input_text = input_text.lower()
+    return responses.get(input_text, responses["default"])
+
+def send_message():
+    user_input = user_entry.get()
+    user_entry.delete(0, tk.END)  
+    chat_display.config(state=tk.NORMAL)
+    chat_display.insert(tk.END, "You: " + user_input + "\n")
+    chat_display.config(state=tk.DISABLED)
+
+    response = get_response(user_input)
+    chat_display.config(state=tk.NORMAL)
+    chat_display.insert(tk.END, "Chatbot: " + response + "\n")
+    chat_display.config(state=tk.DISABLED)
+
+window = tk.Tk()
+window.title("Chatbot")
+
+chat_display = Text(window, wrap=tk.WORD, state=tk.DISABLED)
+chat_display.pack(fill=tk.BOTH, expand=True)
+
+scrollbar = Scrollbar(chat_display)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+chat_display.config(yscrollcommand=scrollbar.set)
+scrollbar.config(command=chat_display.yview)
+
+user_entry = tk.Entry(window)
+user_entry.pack(fill=tk.BOTH, expand=True)
+
+send_button = tk.Button(window, text="Send", command=send_message)
+send_button.pack(fill=tk.BOTH)
+
+window.mainloop()
+
