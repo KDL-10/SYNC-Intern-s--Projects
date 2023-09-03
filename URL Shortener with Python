@@ -1,0 +1,41 @@
+# Python Code
+
+
+import tkinter as tk
+import random
+import string
+from tkinter import messagebox
+
+class URLShortener:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("URL Shortener")
+
+        self.long_url_label = tk.Label(root, text="Enter Long URL:")
+        self.long_url_label.pack()
+
+        self.long_url_entry = tk.Entry(root)
+        self.long_url_entry.pack()
+
+        self.shorten_button = tk.Button(root, text="Shorten URL", command=self.shorten_url)
+        self.shorten_button.pack()
+
+        self.short_to_long = {}
+
+    def shorten_url(self):
+        long_url = self.long_url_entry.get()
+        short_code = self.generate_short_code()
+
+        self.short_to_long[short_code] = long_url
+        short_url = f"short.url/{short_code}"  # Replace with your own short URL domain
+
+        messagebox.showinfo("Shortened URL", f"Shortened URL: {short_url}")
+
+    def generate_short_code(self):
+        characters = string.ascii_letters + string.digits
+        return ''.join(random.choice(characters) for _ in range(6))
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    url_shortener = URLShortener(root)
+    root.mainloop()
